@@ -3,12 +3,13 @@ import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.common.by import By
+from selenium.webdriver.common.by import By
 import time
 
 def click_more(driver):
     try:
         elem_more = driver.find_element_by_xpath('//span[@class="taLnk ulBlueLinks"]').click()
+        print('Clicked')
     except:
         print('Already Clicked')
 
@@ -79,14 +80,7 @@ def get_award_and_detail_rating(driver):
     return award_tag.text, rating_dict
 
 
-
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-DRIVER_BIN = os.path.join(PROJECT_ROOT, "bin/chromedriver_for_mac")
-print DRIVER_BIN
-driver = webdriver.Chrome(DRIVER_BIN)
-#
 # chrome_options = Options()
-# capabilities = {'chrome.binary': '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'}
 # chrome_options.binary_location = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
 # # chrome_options.headless = True
 # chrome_options.add_argument('--headless')
@@ -100,15 +94,17 @@ driver = webdriver.Chrome(DRIVER_BIN)
 # PATH = '/path/to/chromedriver'
 # PATH = '/path/to/chromedriver'
 # driver = webdriver.Chrome(executable_path= PATH,chrome_options= chrome_options)
+options = Options()
+options.add_argument("--window-position=0,0")
+driver = webdriver.Chrome(chrome_options=options)
 
-
-# driver = webdriver.Chrome(chrome_options= capabilities)
 # driver = webdriver.PhantomJS()
 
 # try:
-
+# driver.set_window_position(0,0)
+# driver.set_window_size(1920, 1080)
 driver.get('https://www.tripadvisor.co.uk/Restaurant_Review-g186338-d5861005-Reviews-Rice_Republic-London_England.html')
-
+click_more(driver)
 # def get_restaurant_ranking(driver):
 #     elem_popularity = driver.find_element_by_xpath('//span[contains(@class,"header_popularity popIndexValidation")]')
 #     return(elem_popularity.text)
