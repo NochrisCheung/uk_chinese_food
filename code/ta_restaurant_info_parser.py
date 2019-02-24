@@ -1,8 +1,9 @@
-# import os
+# -*- coding: utf-8 -*-
+import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.by import By
 import time
 
 def click_more(driver):
@@ -10,7 +11,7 @@ def click_more(driver):
         elem_more = driver.find_element_by_xpath('//span[@class="taLnk ulBlueLinks"]').click()
     except:
         print('Already Clicked')
-    
+
 def click_next(driver):
     elem_next = driver.find_element_by_xpath('//a[@class="nav next taLnk ui_button primary"]').click()
 
@@ -57,27 +58,77 @@ def get_opening_hours(driver):
 
     return opening_hours
 
-chrome_options = Options()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--window-size=1920x1080")
+def get_photo_count(driver):
+    photo_count =  driver.find_element_by_xpath('//span[contains(text(), "All photos")]')
+    return photo_count.get_attribute('innerHTML')
+
+def get_award_and_detail_rating(driver):
+    detail_overview_card = driver.find_element_by_xpath('//div[contains(@class, "DetailOverviewCard") and contains(@class, "wrapper")]')
+    award_tag = detail_overview_card.find_element_by_xpath('.//div[contains(@class, "award")]')
+    rating_tags = detail_overview_card.find_elements_by_xpath('.//div[contains(@class, "ratingQuestionRow")]')
+    rating_category = []
+    rating_bubbles = []
+    for r_tags in rating_tags:
+        rating_category = rating_category + r_tags.find_elements_by_xpath('.//span[contains(@class, "ratingText")]')
+        rating_bubbles = rating_bubbles + r_tags.find_elements_by_xpath('.//span[contains(@class, "ui_bubble_rating")]')
+
+    rating_dict = {}
+    for cat, bub in zip(rating_category,rating_bubbles):
+        rating_dict[cat.text] = bub.get_attribute('class')
+
+    return award_tag.text, rating_dict
 
 
+
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+DRIVER_BIN = os.path.join(PROJECT_ROOT, "bin/chromedriver_for_mac")
+print DRIVER_BIN
+driver = webdriver.Chrome(DRIVER_BIN)
+#
+# chrome_options = Options()
+# capabilities = {'chrome.binary': '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'}
+# chrome_options.binary_location = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
+# # chrome_options.headless = True
+# chrome_options.add_argument('--headless')
+
+
+# chrome_options.add_argument('--start-maximized')
+# chrome_options.add_argument('--disable-gpu')
+
+# chrome_options.add_argument("--window-size=1920x1080")
 # chrome_options.binary_location = '/Applications/Google Chrome   Canary.app/Contents/MacOS/Google Chrome Canary'
 # PATH = '/path/to/chromedriver'
-
-driver = webdriver.Chrome(chrome_options=chrome_options)
-# driver = webdriver.Chrome(chrome_options=chrome_options)
-#
-# js = JavaScriptExecutor()
-
 # PATH = '/path/to/chromedriver'
-#
+# driver = webdriver.Chrome(executable_path= PATH,chrome_options= chrome_options)
+
+
+# driver = webdriver.Chrome(chrome_options= capabilities)
 # driver = webdriver.PhantomJS()
-# driver.set_window_size(1920,1080)
+
 # try:
+
 driver.get('https://www.tripadvisor.co.uk/Restaurant_Review-g186338-d5861005-Reviews-Rice_Republic-London_England.html')
 
-def get_restaurant_ranking(driver):
-    elem_popularity = driver.find_element_by_xpath('//span[contains(@class,"header_popularity popIndexValidation")]')
-    return(elem_popularity.text)
+# def get_restaurant_ranking(driver):
+#     elem_popularity = driver.find_element_by_xpath('//span[contains(@class,"header_popularity popIndexValidation")]')
+#     return(elem_popularity.text)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # driver.close()
