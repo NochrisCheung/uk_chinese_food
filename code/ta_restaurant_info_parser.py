@@ -14,7 +14,8 @@ def click_more(driver):
         print('Already Clicked')
 
 def click_next(driver):
-    elem_next = driver.find_element_by_xpath('//a[@class="nav next taLnk ui_button primary"]').click()
+    # elem_next = driver.find_element_by_xpath('//a[@class="nav next taLnk ui_button primary"]').click()
+    elem_next = driver.find_element_by_tag_name("Next").click() 
 
 def get_current_page_numer(driver):
     current_page_num = driver.find_element_by_xpath('//a[contains(@class,"current") and contains(@class,"page")]')
@@ -79,52 +80,22 @@ def get_award_and_detail_rating(driver):
 
     return award_tag.text, rating_dict
 
+# options = Options()
+# # options.add_argument('--start-maximized')
+# # options.add_argument('--headless')
+# # options.add_argument('--no-sandbox')
+# # options.add_argument('--disable-gpu')
+# options.add_argument("--window-size=1920x1080")
+# options.binary_location = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
+# driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver',options=options)
+# # driver = webdriver.Chrome(executable_path='/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary',options=options)
+#
+# driver.get('https://www.tripadvisor.co.uk/Restaurant_Review-`g186338-d5861005-Reviews-Rice_Republic-London_England.html')
+# click_more(driver)
 
-# chrome_options = Options()
-# chrome_options.binary_location = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
-# # chrome_options.headless = True
-# chrome_options.add_argument('--headless')
-
-
-# chrome_options.add_argument('--start-maximized')
-# chrome_options.add_argument('--disable-gpu')
-
-# chrome_options.add_argument("--window-size=1920x1080")
-# chrome_options.binary_location = '/Applications/Google Chrome   Canary.app/Contents/MacOS/Google Chrome Canary'
-# PATH = '/path/to/chromedriver'
-# PATH = '/path/to/chromedriver'
-# driver = webdriver.Chrome(executable_path= PATH,chrome_options= chrome_options)
-options = Options()
-options.add_argument("--window-position=0,0")
-driver = webdriver.Chrome(chrome_options=options)
-
-# driver = webdriver.PhantomJS()
-
-# try:
-# driver.set_window_position(0,0)
-# driver.set_window_size(1920, 1080)
-driver.get('https://www.tripadvisor.co.uk/Restaurant_Review-g186338-d5861005-Reviews-Rice_Republic-London_England.html')
-click_more(driver)
 # def get_restaurant_ranking(driver):
 #     elem_popularity = driver.find_element_by_xpath('//span[contains(@class,"header_popularity popIndexValidation")]')
 #     return(elem_popularity.text)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # driver.close()
